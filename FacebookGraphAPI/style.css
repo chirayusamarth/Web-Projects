@@ -1,0 +1,158 @@
+<style>
+			.pg-header-text{
+				color: #365899;
+			    font-size: 100%;
+			    padding-top: 1%;
+			    padding-left: 5%;
+			    background-color:#f6f7f9;
+			}
+			.bor-top{
+				border-top: solid 1px #365889;
+			}
+			.btn-search{
+				border: none;
+				color: #FFFFFF;
+				background-color: #365889;
+				height:25.85px;
+				width:7%;
+			}
+			.input-text{
+				color:black;
+				width: 50%;
+			}
+			.inner-row{
+				padding-left: 5%
+			}
+			.clear-btn{
+				background-color: #FFFFFF;
+				color: #365889;
+				outline: #365889 solid thin;
+				border: none;
+			}
+			li a {
+			    color: black;
+			    text-align: center;
+			    text-decoration: none;
+			}
+			.active {
+    			background-color: #365889;
+    			color: white;
+			}
+			a:hover{
+				background-color: #365889;
+			}
+			.btn-css1{
+			    width: 115%;
+			    background-color: #365889;
+			    border: none;
+			    color: #FFFFFF;
+			    text-align: center;
+			    text-decoration: none;
+			    cursor: pointer;
+			    padding: 3% 2%;
+			}
+			.btn-css{
+			    width: 115%;
+			    background-color: #FFFFFF;
+			    border: none;
+			    color: #000000;
+			    text-align: center;
+			    text-decoration: none;
+			    cursor: pointer;
+			    padding: 3% 2%;
+			}
+			.progress-style{
+				padding-top: 10%;
+				padding-left: 10%;
+				padding-right: 10%;
+				display:none;
+			}
+			.albums-css{
+				    margin-right: 0;
+				    margin-left: 0;
+				    background-color: #fff;
+				    border-color: #ddd;
+				    /* border-width: 1px; */
+				    /* border-radius: 4px 4px 0 0; */
+				    border: solid 1px #ddd
+			}
+			.yellow{
+				color: #ffd700;
+			}
+			.time-css{
+				color: #90949c;
+			}
+
+			.animate-hide {
+				-webkit-transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 1s;
+			    -moz-transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 1s;
+			    -o-transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 1s;
+			    transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 1s;
+			    left:0;
+			    position: absolute;
+			    padding-left: 2%;
+    			width: 100%
+			}
+
+			.animate-hide.ng-hide {
+			  left: -100%;
+			  position: absolute;
+			}
+
+			#album-name{
+				background:none
+			    border:none; 
+		    	padding:0
+		    	font: inherit;
+		     /*border is optional*/
+		     	border-bottom:1px solid blue; 
+		     	cursor: pointer;
+		     	color:blue;
+			}
+			.cursor-pointer{
+				cursor: pointer;
+			}
+			.hide{
+				display: none;
+			}
+			.glyphicon-star{
+				color: yellow;
+			}
+			.alb-img{
+				width: 100%;
+				height: auto;
+			}
+@media (max-width: 480px) {
+    .nav-tabs > li {
+        float: none;
+        text-align: center;
+    }
+	.nav-tabs > li > a {
+        margin-right: 0; 
+    }
+    .nav-tabs {
+        border-bottom: 0;
+    }
+    .nav-tabs > li > a {
+        border: 1px solid #ddd;
+        .border-radius(0);
+    }
+    .nav-tabs > .active > a,
+    .nav-tabs > .active > a:hover {
+        border: 1px solid #ddd;
+    }
+    .nav-tabs > li:first-child > a {
+        .border-top-radius(4px);
+    }
+    .nav-tabs > li:last-child > a {
+        .border-bottom-radius(4px);
+    }
+    .nav-tabs > li > a:hover,
+    .nav-tabs > li > a:focus {
+        border-color: #ddd;
+        z-index: 2;
+    }
+    .btn-search{
+    	width:12%;
+    }
+</style>
