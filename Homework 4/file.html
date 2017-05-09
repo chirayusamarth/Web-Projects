@@ -1,0 +1,225 @@
+<html>
+  <head>
+  <style>
+    form{
+      margin-top:17%;
+      text-align: center;
+    }
+  </style>
+  <script>
+    
+    function generateHTML(xmlDoc)
+    {
+      ELEMENT_NODE = 1; // MS parser doesn't define Node.ELEMENT_NODE
+      root=xmlDoc.DocumentElement;
+      html_text="<html><head><title>XML Parse Result</title></head><body>";
+      html_text+="<table border='2'>";
+      
+      planes=xmlDoc.getElementsByTagName("Row");
+
+      planeNodeList=planes.item(0).childNodes;
+      html_text+="<tbody>";
+      html_text+="<tr>";
+      x=0; y=0;
+      // output the headers
+      headers= xmlDoc.getElementsByTagName("Header");
+      headerList= headers.item(0).childNodes;
+      for(i=0;i<headerList.length;i++)
+      {
+        if(headerList.item(i).nodeType==ELEMENT_NODE)
+        {
+          if(headerList.item(i).nodeName=="Data"){
+            if(headerList.item(i).hasChildNodes()){
+              header= headerList.item(i).firstChild.nodeValue;
+              html_text+="<th>"+header+"</th>";
+            }
+            else{
+              html_text+="<th></th>";
+            }
+          }
+        }
+      }
+      html_text+="</tr>";
+      // output out the values
+      for(i=0;i<planes.length;i++) //do for all planes
+      {
+        planeNodeList=planes.item(i).childNodes; //get properties of a plane
+        html_text+="<tr>"; //start a new row of the output table
+        for(j=0;j<planeNodeList.length;j++)
+        {
+          if(planeNodeList.item(j).nodeType==ELEMENT_NODE)
+          {
+            if(planeNodeList.item(j).nodeName=="Plane")
+            { //handle images separately
+              if(planeNodeList.item(j).hasChildNodes())
+              {
+                html_text+="<td><img src='"+planeNodeList.item(j).firstChild.nodeValue+"' width='"+200+"' height='"+150+"'></td>"; 
+              }
+              else{
+                html_text+="<td></td>";
+              }
+            }
+            else{
+              if(planeNodeList.item(j).nodeName=="HomePage")
+              {
+                if(planeNodeList.item(j).hasChildNodes())
+                {
+                  html_text+="<td><a href='"+planeNodeList.item(j).firstChild.nodeValue+"'width='"+x+"'height='"+y+"'>"+planeNodeList.item(j).firstChild.nodeValue+"</a></td>"
+                }
+                else{
+                  html_text+="<td></td>";
+                }
+              }
+              else{
+                if(planeNodeList.item(j).nodeName=="Hubs")
+                {
+                  if(planeNodeList.item(j).hasChildNodes())
+                  {
+                    hubList= planeNodeList.item(j).childNodes;
+                    var count=1;
+                    html_text+="<td>"
+                    for(k=0;k<hubList.length;k++)
+                    {
+                      if(hubList.item(k).nodeName=="Hub")
+                      {
+                        if(hubList.item(k).hasChildNodes())
+                        {
+                          if(count==1)
+                          {  
+                            html_text+="<ul><li style='"+"font-weight: bold;'"+">"+hubList.item(k).firstChild.nodeValue+"</li></ul>"
+                            count++;
+                          }
+                          else{
+                            html_text+="<ul><li>"+hubList.item(k).firstChild.nodeValue+"</li></ul>"
+                          }
+                        }
+                        else{
+                          html_text+="<ul><li></li></ul>";
+                          count++;
+                        }
+                      }
+                    }
+                    html_text+="</td>"
+                  }
+                  else
+                  {
+                    html_text+="<td></td>";
+                  }
+                }
+                else
+                {
+                  if(planeNodeList.item(j).hasChildNodes()){
+                    html_text+="<td>"+planeNodeList.item(j).firstChild.nodeValue+"</td>";
+                  }
+                  else{
+                    html_text+="<td>"+"</td>";
+                  }
+                }
+              } 
+            }
+          }
+        }
+        html_text+="</tr>";
+      }
+      html_text+="</tbody>"; html_text+="</table>";
+      html_text+="</body></html>";
+    }
+    function viewXML(what)
+    {
+      if(what.URL.value=='')
+        alert("Please enter URL of XML file");
+      else
+      {
+        var URL = what.URL.value;
+        function loadXML(url) 
+        {
+          try
+          {
+            if (window.XMLHttpRequest)
+            {// code for IE7+, Firefox, Chrome, Opera, Safari
+              xmlhttp=new XMLHttpRequest();
+            }
+            else {// code for IE6, IE5
+              xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            xmlhttp.open("GET",url,false);
+            xmlhttp.send();
+            xmlDoc=xmlhttp.responseXML;
+            if(xmlhttp.status==200)
+            {
+              if(xmlDoc==null || xmlDoc.documentElement.nodeName=="parsererror")
+              {
+                alert("Invalid XML: Error in XML File");
+                return false;
+              }
+              else{
+                return xmlDoc;
+              }
+            }
+            if(xmlhttp.status==404){
+              alert("File Not Found");
+              return false;
+            }
+          }
+          catch(err)
+          {
+            alert("File Not Found");
+            return false;
+          }
+        }
+        xmlDoc = loadXML(URL);
+        if(xmlDoc==false)
+          return false;
+        if (window.ActiveXObject) //if IE, simply execute script (due to async prop).
+        {
+          if (xmlDoc.parseError.errorCode != 0) 
+          {
+            var myErr = xmlDoc.parseError;
+            generateError(xmlDoc);
+            hWin = window.open("", "Error", "height=300,width=340");
+            hWin.document.write(html_text);
+          }
+          else
+          {
+            if(xmlDoc.getElementsByTagName("Row").length==0)
+            {
+              alert("No Airline Companies");
+              return false;
+            }
+            generateHTML(xmlDoc);
+            hWin = window.open("", "Assignment4", "scrollbars=1,height=800,width=800");
+            hWin.document.write(html_text);
+          }
+        }
+        else //else if FF, execute script once XML object has loaded
+        {
+          if(xmlDoc.getElementsByTagName("Row").length==0)
+            {
+              alert("No Airline Companies");
+              return false;
+            }
+          xmlDoc.onload=generateHTML(xmlDoc);
+          hWin = window.open("", "Assignment4", "scrollbars=1,height=800,width=900");
+          hWin.document.write(html_text);
+        }
+        hWin.document.close();
+      }
+      return false;
+    }
+    function removeWhiteSpace(str)
+    {
+      var string= str.value;
+      string=string.trim()
+      return string;
+    }
+  </script>
+  </head>
+  <body>
+    <form name="myform" method="POST" id="location">
+      <h3>Enter URL for Airlines List XML File </h3><br>
+      <input type="text" name="URL" maxlength="255" onchange="return removeWhiteSpace(this)"/><br />
+      <h4><input type="submit" name="submit" value="Submit Query" onClick="return viewXML(this.form)" /></h4>
+    </form>
+    <noscript>
+  </body>
+</html>
